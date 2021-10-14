@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "AmazingEvent",
+        "repositoryURL": "https://github.com/khamitimur/AmazingEvent",
+        "state": {
+          "branch": null,
+          "revision": "2f4e3ee6497a1fb9a8a3d0c0eacf4f069fa4fba5",
+          "version": "1.0.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
