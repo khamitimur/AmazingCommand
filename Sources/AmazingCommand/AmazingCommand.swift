@@ -14,6 +14,62 @@ public protocol IAmazingCommand {
     func canExecute(_ parameter: Any?) -> Bool
 }
 
+public final class AmazingVoidCommand<Target: AnyObject>: IAmazingCommand {
+    
+    // MARK: - Type Aliases
+    
+    /// Action that executes the command.
+    public typealias ExecuteAction = (Target) -> () -> Void
+    
+    /// Action that returns a value that indicates whether the command can be executed with a provided parameter.
+    public typealias CanExecuteAction = (Target) -> () -> Bool
+    
+    // MARK: - Private Properties
+    
+    private weak var target: Target?
+    
+    private let executeAction: ExecuteAction
+    private let canExecuteAction: CanExecuteAction?
+    
+    // MARK: - Initializers
+    
+    /// Initializes a new instance.
+    /// - Parameters:
+    ///   - target: Target that owns actions.
+    ///   - executeAction: Action that executes the command.
+    ///   - canExecuteAction: Action that returns a value that indicates whether the command can be executed with a provided parameter.
+    public init(target: Target,
+                executeAction: @escaping ExecuteAction,
+                canExecuteAction: CanExecuteAction? = nil) {
+        self.target = target
+        
+        self.executeAction = executeAction
+        self.canExecuteAction = canExecuteAction
+    }
+    
+    // MARK: - IAmazingCommand
+    
+    public func execute(_ parameter: Any?) {
+        guard let target = target else {
+            return
+        }
+        
+        executeAction(target)()
+    }
+    
+    public func canExecute(_ parameter: Any?) -> Bool {
+        guard let target = target else {
+            return false
+        }
+        
+        guard let canExecuteAction = canExecuteAction else {
+            return true
+        }
+        
+        return canExecuteAction(target)()
+    }
+}
+
 /// Command which execution is handled by a target.
 public final class AmazingCommand<Target: AnyObject, Parameter: Any>: IAmazingCommand {
     
