@@ -1,24 +1,24 @@
-# AmazingTargetCommand
+# AmazingCommand
 
-`AmazingTargetCommand` is a spin on classic [`Command`](https://en.wikipedia.org/wiki/Command_pattern) design pattern with a Swift version of [`Target-Action`](https://developer.apple.com/library/archive/documentation/General/Conceptual/Devpedia-CocoaApp/TargetAction.html) design pattern on top. Together they will enable you to create commands with ease, without unnecessary repetition and no chances of accidentally creating a retencion cycle.
+`AmazingCommand` is a spin on classic [`Command`](https://en.wikipedia.org/wiki/Command_pattern) design pattern with a Swift version of [`Target-Action`](https://developer.apple.com/library/archive/documentation/General/Conceptual/Devpedia-CocoaApp/TargetAction.html) design pattern on top. Together they will enable you to create commands with ease, without unnecessary repetition and no chances of accidentally creating a retencion cycle.
 
 ## Why?
 
-Let's say that you are developing financial application and you have `Command` pattern already applied. And it works fine for global commands like `Transfer` and `Deposit`. But now you want to create a command `Export` that is specific to one of the application's screens. What do you do? You create a class that implements your command protocol. And here is where the problem arise. You just created a separate class for a command that is tightly coupled with one of many screens in the application. That's where `AmazingTargetCommand` comes to rescue.
+Let's say that you are developing financial application and you have `Command` pattern already applied. And it works fine for global commands like `Transfer` and `Deposit`. But now you want to create a command `Export` that is specific to one of the application's screens. What do you do? You create a class that implements your command protocol. And here is where the problem arise. You just created a separate class for a command that is tightly coupled with one of many screens in the application. That's where `AmazingCommand` comes to rescue.
 
 ## Usage
 
 ```swift
-import AmazingTargetCommand
+import AmazingCommand
 
 class ExportViewModel {
     
-    var exportCommand: AmazingTargetCommand<ExportViewModel, IndexPath>!
+    var exportCommand: AmazingCommand<ExportViewModel, IndexPath>!
     
     init() {
-        exportCommand = AmazingTargetCommand(target: self,
-                                             executeAction: ExportViewModel.export,
-                                             canExecuteAction: ExportViewModel.canExport)
+        exportCommand = AmazingCommand(target: self,
+                                       executeFunction: ExportViewModel.export,
+                                       canExecuteFunction: ExportViewModel.canExport)
     }
     
     func export(_ parameter: IndexPath) {
@@ -49,8 +49,6 @@ class ExportViewController: UIViewController, UITableViewDelegate {
 }
 ```
 
-Check out [`AmazingTargetCommandButton`](https://github.com/khamitimur/AmazingTargetCommandCocoa/blob/master/Sources/AmazingTargetCommandCocoa/UIKit/AmazingTargetCommandButton.swift) for more applicable usage example.
-
 ## Requirements
 
 - macOS 10.14+
@@ -61,19 +59,14 @@ Check out [`AmazingTargetCommandButton`](https://github.com/khamitimur/AmazingTa
 - Swift 5.0+
 
 ## Installation
-### CocoaPods
-To integrate `AmazingTargetCommand` into your Xcode project using [CocoaPods](https://cocoapods.org/), specify it in your `Podfile`:
-```ruby
-pod 'AmazingTargetCommand', '~> 1.0'
-```
 
 ### Swift Package Manager
 
-To integrate `AmazingTargetCommand` into your Xcode project using [Swift Package Manager](https://swift.org/package-manager/), specify it as dependency in your `Package.swift`:
+To integrate `AmazingCommand` into your Xcode project using [Swift Package Manager](https://swift.org/package-manager/), specify it as dependency in your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/khamitimur/AmazingTargetCommand.git", .upToNextMajor(from: "1.0.0"))
+    .package(url: "https://github.com/khamitimur/AmazingCommand.git", .upToNextMajor(from: "1.0.0"))
 ]
 ```
 
