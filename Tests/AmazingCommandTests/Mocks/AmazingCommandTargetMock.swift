@@ -1,4 +1,4 @@
-final class AmazingCommandTarget<T> {
+final class AmazingCommandTargetMock<T> {
     
     // MARK: - Properties
     

@@ -4,26 +4,16 @@ import XCTest
 
 final class AmazingCommandCanExecuteTests: XCTestCase {
     
-    // MARK: - Lifecycle
-    
-    override func setUpWithError() throws {
-        try? super.setUpWithError()
-    }
-    
-    override func tearDownWithError() throws {
-        try? super.tearDownWithError()
-    }
-    
     // MARK: - Tests
     
     func test_canExecute_whenValueParameter_whenValueType() throws {
         // given
         let parameter: Int = 5
         
-        let target = AmazingCommandTarget<Int>()
+        let target = AmazingCommandTargetMock<Int>()
         let command = AmazingCommand(target: target,
-                                           executeAction: AmazingCommandTarget.execute,
-                                           canExecuteAction: AmazingCommandTarget.canExecute)
+                                     executeFunction: AmazingCommandTargetMock.execute,
+                                     canExecuteFunction: AmazingCommandTargetMock.canExecute)
         
         // when
         _ = command.canExecute(parameter)
@@ -37,10 +27,10 @@ final class AmazingCommandCanExecuteTests: XCTestCase {
         // given
         let parameter: Int = 5
         
-        let target = AmazingCommandTarget<Int?>()
+        let target = AmazingCommandTargetMock<Int?>()
         let command = AmazingCommand(target: target,
-                                           executeAction: AmazingCommandTarget.execute,
-                                           canExecuteAction: AmazingCommandTarget.canExecute)
+                                     executeFunction: AmazingCommandTargetMock.execute,
+                                     canExecuteFunction: AmazingCommandTargetMock.canExecute)
         
         // when
         _ = command.canExecute(parameter)
@@ -54,10 +44,10 @@ final class AmazingCommandCanExecuteTests: XCTestCase {
         // given
         let parameter: Int = 5
         
-        let target = AmazingCommandTarget<String>()
+        let target = AmazingCommandTargetMock<String>()
         let command = AmazingCommand(target: target,
-                                           executeAction: AmazingCommandTarget.execute,
-                                           canExecuteAction: AmazingCommandTarget.canExecute)
+                                     executeFunction: AmazingCommandTargetMock.execute,
+                                     canExecuteFunction: AmazingCommandTargetMock.canExecute)
         
         // when
         _ = command.canExecute(parameter)
@@ -70,10 +60,10 @@ final class AmazingCommandCanExecuteTests: XCTestCase {
         // given
         let parameter: Int = 5
         
-        let target = AmazingCommandTarget<String?>()
+        let target = AmazingCommandTargetMock<String?>()
         let command = AmazingCommand(target: target,
-                                           executeAction: AmazingCommandTarget.execute,
-                                           canExecuteAction: AmazingCommandTarget.canExecute)
+                                     executeFunction: AmazingCommandTargetMock.execute,
+                                     canExecuteFunction: AmazingCommandTargetMock.canExecute)
         
         // when
         _ = command.canExecute(parameter)
@@ -86,10 +76,10 @@ final class AmazingCommandCanExecuteTests: XCTestCase {
         // given
         let parameter: Int? = 5
         
-        let target = AmazingCommandTarget<Int>()
+        let target = AmazingCommandTargetMock<Int>()
         let command = AmazingCommand(target: target,
-                                           executeAction: AmazingCommandTarget.execute,
-                                           canExecuteAction: AmazingCommandTarget.canExecute)
+                                     executeFunction: AmazingCommandTargetMock.execute,
+                                     canExecuteFunction: AmazingCommandTargetMock.canExecute)
         
         // when
         _ = command.canExecute(parameter)
@@ -103,10 +93,10 @@ final class AmazingCommandCanExecuteTests: XCTestCase {
         // given
         let parameter: Int? = nil
         
-        let target = AmazingCommandTarget<Int>()
+        let target = AmazingCommandTargetMock<Int>()
         let command = AmazingCommand(target: target,
-                                           executeAction: AmazingCommandTarget.execute,
-                                           canExecuteAction: AmazingCommandTarget.canExecute)
+                                     executeFunction: AmazingCommandTargetMock.execute,
+                                     canExecuteFunction: AmazingCommandTargetMock.canExecute)
         
         // when
         _ = command.canExecute(parameter)
@@ -118,12 +108,12 @@ final class AmazingCommandCanExecuteTests: XCTestCase {
     func test_canExecute_whenReferenceParameter_whenReferenceType() throws {
         // given
         let parameterValue: Int = 5
-        let parameter: AmazingCommandParameter = .init(value: parameterValue)
+        let parameter: AmazingCommandParameterMock<Int> = .init(value: parameterValue)
         
-        let target = AmazingCommandTarget<AmazingCommandParameter>()
+        let target = AmazingCommandTargetMock<AmazingCommandParameterMock<Int>>()
         let command = AmazingCommand(target: target,
-                                           executeAction: AmazingCommandTarget.execute,
-                                           canExecuteAction: AmazingCommandTarget.canExecute)
+                                     executeFunction: AmazingCommandTargetMock.execute,
+                                     canExecuteFunction: AmazingCommandTargetMock.canExecute)
         
         // when
         _ = command.canExecute(parameter)
@@ -136,12 +126,12 @@ final class AmazingCommandCanExecuteTests: XCTestCase {
     func test_canExecute_whenReferenceParameter_whenOptionalReferenceType() throws {
         // given
         let parameterValue: Int = 5
-        let parameter: AmazingCommandParameter = .init(value: parameterValue)
+        let parameter: AmazingCommandParameterMock<Int> = .init(value: parameterValue)
         
-        let target = AmazingCommandTarget<AmazingCommandParameter?>()
+        let target = AmazingCommandTargetMock<AmazingCommandParameterMock<Int>?>()
         let command = AmazingCommand(target: target,
-                                           executeAction: AmazingCommandTarget.execute,
-                                           canExecuteAction: AmazingCommandTarget.canExecute)
+                                     executeFunction: AmazingCommandTargetMock.execute,
+                                     canExecuteFunction: AmazingCommandTargetMock.canExecute)
         
         // when
         _ = command.canExecute(parameter)
@@ -154,12 +144,12 @@ final class AmazingCommandCanExecuteTests: XCTestCase {
     func test_canExecute_whenReferenceParameter_whenWrongReferenceType() throws {
         // given
         let parameterValue: Int = 5
-        let parameter: AmazingCommandParameter = .init(value: parameterValue)
+        let parameter: AmazingCommandParameterMock<Int> = .init(value: parameterValue)
         
-        let target = AmazingCommandTarget<AnotherAmazingCommandParameter>()
+        let target = AmazingCommandTargetMock<SecondAmazingCommandParameterMock<Int>>()
         let command = AmazingCommand(target: target,
-                                           executeAction: AmazingCommandTarget.execute,
-                                           canExecuteAction: AmazingCommandTarget.canExecute)
+                                     executeFunction: AmazingCommandTargetMock.execute,
+                                     canExecuteFunction: AmazingCommandTargetMock.canExecute)
         
         // when
         _ = command.canExecute(parameter)
@@ -171,12 +161,12 @@ final class AmazingCommandCanExecuteTests: XCTestCase {
     func test_canExecute_whenReferenceParameter_whenWrongOptionalReferenceType() throws {
         // given
         let parameterValue: Int = 5
-        let parameter: AmazingCommandParameter = .init(value: parameterValue)
+        let parameter: AmazingCommandParameterMock<Int> = .init(value: parameterValue)
         
-        let target = AmazingCommandTarget<AnotherAmazingCommandParameter?>()
+        let target = AmazingCommandTargetMock<SecondAmazingCommandParameterMock<Int>?>()
         let command = AmazingCommand(target: target,
-                                           executeAction: AmazingCommandTarget.execute,
-                                           canExecuteAction: AmazingCommandTarget.canExecute)
+                                     executeFunction: AmazingCommandTargetMock.execute,
+                                     canExecuteFunction: AmazingCommandTargetMock.canExecute)
         
         // when
         _ = command.canExecute(parameter)
@@ -188,12 +178,12 @@ final class AmazingCommandCanExecuteTests: XCTestCase {
     func test_canExecute_whenOptionalReferenceParameter_whenReferenceType() throws {
         // given
         let parameterValue: Int = 5
-        let parameter: AmazingCommandParameter? = .init(value: parameterValue)
+        let parameter: AmazingCommandParameterMock<Int>? = .init(value: parameterValue)
         
-        let target = AmazingCommandTarget<AmazingCommandParameter>()
+        let target = AmazingCommandTargetMock<AmazingCommandParameterMock<Int>>()
         let command = AmazingCommand(target: target,
-                                           executeAction: AmazingCommandTarget.execute,
-                                           canExecuteAction: AmazingCommandTarget.canExecute)
+                                     executeFunction: AmazingCommandTargetMock.execute,
+                                     canExecuteFunction: AmazingCommandTargetMock.canExecute)
         
         // when
         _ = command.canExecute(parameter)
@@ -205,12 +195,12 @@ final class AmazingCommandCanExecuteTests: XCTestCase {
     
     func test_canExecute_whenOptionalReferenceParameterIsNil_whenReferenceType() throws {
         // given
-        let parameter: AmazingCommandParameter? = nil
+        let parameter: AmazingCommandParameterMock<String>? = nil
         
-        let target = AmazingCommandTarget<AmazingCommandParameter>()
+        let target = AmazingCommandTargetMock<AmazingCommandParameterMock<String>>()
         let command = AmazingCommand(target: target,
-                                           executeAction: AmazingCommandTarget.execute,
-                                           canExecuteAction: AmazingCommandTarget.canExecute)
+                                     executeFunction: AmazingCommandTargetMock.execute,
+                                     canExecuteFunction: AmazingCommandTargetMock.canExecute)
         
         // when
         _ = command.canExecute(parameter)
@@ -223,10 +213,10 @@ final class AmazingCommandCanExecuteTests: XCTestCase {
         // given
         let parameter: Int = 5
         
-        let target = AmazingCommandTarget<AnotherAmazingCommandParameter>()
+        let target = AmazingCommandTargetMock<AmazingCommandParameterMock<Int>>()
         let command = AmazingCommand(target: target,
-                                           executeAction: AmazingCommandTarget.execute,
-                                           canExecuteAction: AmazingCommandTarget.canExecute)
+                                     executeFunction: AmazingCommandTargetMock.execute,
+                                     canExecuteFunction: AmazingCommandTargetMock.canExecute)
         
         // when
         _ = command.canExecute(parameter)
@@ -238,12 +228,12 @@ final class AmazingCommandCanExecuteTests: XCTestCase {
     func test_canExecute_whenReferenceParameter_whenValueType() throws {
         // given
         let parameterValue: Int = 5
-        let parameter: AmazingCommandParameter? = .init(value: parameterValue)
+        let parameter: AmazingCommandParameterMock<Int>? = .init(value: parameterValue)
         
-        let target = AmazingCommandTarget<Int>()
+        let target = AmazingCommandTargetMock<Int>()
         let command = AmazingCommand(target: target,
-                                           executeAction: AmazingCommandTarget.execute,
-                                           canExecuteAction: AmazingCommandTarget.canExecute)
+                                     executeFunction: AmazingCommandTargetMock.execute,
+                                     canExecuteFunction: AmazingCommandTargetMock.canExecute)
         
         // when
         _ = command.canExecute(parameter)
