@@ -16,14 +16,11 @@ let package = Package(
             targets: ["AmazingCommand"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/khamitimur/AmazingEvent",
-                 .upToNextMajor(from: "1.0.0"))
     ],
     targets: [
         .target(
             name: "AmazingCommand",
             dependencies: [
-                "AmazingEvent"
             ]),
         .testTarget(
             name: "AmazingCommandTests",

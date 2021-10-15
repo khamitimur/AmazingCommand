@@ -1,13 +1,7 @@
 import Foundation
-import AmazingEvent
 
 /// Command which execution is handled by a target.
 public protocol IAmazingCommand {
-    
-    // MARK: - Events
-    
-    /// Returns an event that indicates that command possible execution changed.
-    var canExecuteChanged: AmazingEvent<Void> { get }
     
     // MARK: - Methods
     
@@ -38,8 +32,6 @@ public final class AmazingCommand<Target: AnyObject, Parameter: Any>: IAmazingCo
     private let executeAction: ExecuteAction
     private let canExecuteAction: CanExecuteAction?
     
-    private var canExecuteChangedPublisher = AmazingEventPublisher<Void>()
-    
     // MARK: - Initializers
     
     /// Initializes a new instance.
@@ -57,8 +49,6 @@ public final class AmazingCommand<Target: AnyObject, Parameter: Any>: IAmazingCo
     }
     
     // MARK: - IAmazingCommand
-    
-    public private(set) lazy var canExecuteChanged = canExecuteChangedPublisher.event
     
     public func execute(_ parameter: Any?) {
         guard let target = target else {
@@ -84,13 +74,6 @@ public final class AmazingCommand<Target: AnyObject, Parameter: Any>: IAmazingCo
         }
         
         return canExecuteAction(target)(parameter)
-    }
-    
-    // MARK: - Public Methods
-    
-    /// Invokes `canExecuteChanged` event.
-    public func invokeCanExecuteChanged() {
-        canExecuteChangedPublisher.invoke(sender: self)
     }
 }
 
