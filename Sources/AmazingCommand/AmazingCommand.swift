@@ -6,11 +6,9 @@ public protocol IAmazingCommand {
     // MARK: - Methods
     
     /// Executes the command.
-    /// - Parameter parameter: A parameter to pass to the `execute` action.
     func execute(_ parameter: Any?)
     
     /// Returns a value that indicates whether the command can be executed with a provided parameter.
-    /// - Parameter parameter: A parameter to pass to the `canExecute` action.
     func canExecute(_ parameter: Any?) -> Bool
 }
 
@@ -29,8 +27,8 @@ public final class AmazingCommand<Target: AnyObject, Parameter: Any>: IAmazingCo
     
     private weak var target: Target?
     
-    private let executeAction: ExecuteAction
-    private let canExecuteAction: CanExecuteAction?
+    private let executeAction: (Target) -> (Parameter) -> Void
+    private let canExecuteAction: ((Target) -> (Parameter) -> Bool)?
     
     // MARK: - Initializers
     
@@ -40,8 +38,8 @@ public final class AmazingCommand<Target: AnyObject, Parameter: Any>: IAmazingCo
     ///   - executeAction: Action that executes the command.
     ///   - canExecuteAction: Action that returns a value that indicates whether the command can be executed with a provided parameter.
     public init(target: Target,
-                executeAction: @escaping ExecuteAction,
-                canExecuteAction: CanExecuteAction? = nil) {
+                executeAction: @escaping (Target) -> (Parameter) -> Void,
+                canExecuteAction: ((Target) -> (Parameter) -> Bool)? = nil) {
         self.target = target
         
         self.executeAction = executeAction
@@ -51,11 +49,15 @@ public final class AmazingCommand<Target: AnyObject, Parameter: Any>: IAmazingCo
     // MARK: - IAmazingCommand
     
     public func execute(_ parameter: Any?) {
-        guard let target = target else {
+        guard let target = target,
+              let parameter = parameter as? Parameter
+        else {
             return
         }
         
-        guard let parameter = parameter as? Parameter else { return }
+        guard canExecute(target: target, parameter: parameter) else {
+            return
+        }
         
         executeAction(target)(parameter)
     }
@@ -71,6 +73,16 @@ public final class AmazingCommand<Target: AnyObject, Parameter: Any>: IAmazingCo
         
         guard let parameter = parameter as? Parameter else {
             return false
+        }
+        
+        return canExecuteAction(target)(parameter)
+    }
+    
+    // MARK: - Private Methods
+    
+    private func canExecute(target: Target, parameter: Parameter) -> Bool {
+        guard let canExecuteAction = canExecuteAction else {
+            return true
         }
         
         return canExecuteAction(target)(parameter)
